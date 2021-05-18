@@ -728,17 +728,8 @@ export default {
         return;
       }
 
-      document.addEventListener(
-        this.isTouch ? "touchend" : "mouseup",
-        this.onEnd,
-        true
-      );
-
-      document.addEventListener(
-        this.isTouch ? "touchmove" : "mousemove",
-        this.onDrag,
-        true
-      );
+      document.addEventListener("pointerup", this.onEnd, true);
+      document.addEventListener("pointermove", this.onDrag, true);
 
       this.startTime = e.timeStamp;
       this.dragging = true;
@@ -784,16 +775,9 @@ export default {
       this.render();
 
       // clear events listeners
-      document.removeEventListener(
-        this.isTouch ? "touchend" : "mouseup",
-        this.onEnd,
-        true
-      );
-      document.removeEventListener(
-        this.isTouch ? "touchmove" : "mousemove",
-        this.onDrag,
-        true
-      );
+
+      document.removeEventListener("pointerup", this.onEnd, true);
+      document.removeEventListener("pointermove", this.onDrag, true);
     },
     /**
      * Trigger actions when mouse is pressed and then moved (mouse drag)
@@ -924,10 +908,7 @@ export default {
 
     // setup the start event only if touch device or mousedrag activated
     if ((this.isTouch && this.touchDrag) || this.mouseDrag) {
-      this.$refs["VueCarousel-wrapper"].addEventListener(
-        this.isTouch ? "touchstart" : "mousedown",
-        this.onStart
-      );
+      this.$refs["VueCarousel-wrapper"].addEventListener("pointerdown", this.onStart, true);
     }
 
     this.attachMutationObserver();
@@ -964,10 +945,7 @@ export default {
       this.handleTransitionEnd
     );
 
-    this.$refs["VueCarousel-wrapper"].removeEventListener(
-      this.isTouch ? "touchstart" : "mousedown",
-      this.onStart
-    );
+    this.$refs["VueCarousel-wrapper"].removeEventListener("pointerdown", this.onStart);
   }
 };
 </script>
